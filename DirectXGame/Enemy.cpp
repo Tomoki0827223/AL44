@@ -74,28 +74,38 @@ void Enemy::Update() {
 		bullet->Update();
 	}
 
-	// キャラクターの移動ベクトル
-	KamataEngine::Vector3 move = {0, 0, 0};
-	// 接近
-	KamataEngine::Vector3 accessSpeed = {0.1f,0.1f,0.1f};
-	// 離脱
-	KamataEngine::Vector3 eliminationSpeed = {0.3f, 0.3f, 0.3f};
+	//// キャラクターの移動ベクトル
+	//KamataEngine::Vector3 move = {0, 0, 0};
+	//// 接近
+	//KamataEngine::Vector3 accessSpeed = {0.1f,0.1f,0.1f};
+	//// 離脱
+	//KamataEngine::Vector3 eliminationSpeed = {0.5f, 0.3f, 0.0f};
 
-	switch (phase_) { 
+	// フェーズごとの動作
+	switch (phase_) {
 	case Phase::Approach:
-	default:
-		// 移動(ベクトルを加算)
-		worldtransfrom_.translation_.z -= accessSpeed.z;
-		// 規定の位置に到達したら離脱
-		if (worldtransfrom_.translation_.z < 0.0f) {
+		// Z方向へ近づく
+		worldtransfrom_.translation_.z -= 0.3f;
+
+		// Z位置が閾値に達したらフェーズをLeaveに変更
+
+		if (worldtransfrom_.translation_.z <= -2.0f) {
 			phase_ = Phase::Leave;
 		}
 		break;
+
 	case Phase::Leave:
-		// 移動(ベクトルを加算)
-		worldtransfrom_.translation_.y += eliminationSpeed.y;
+		// 離れる動作（例えばZを増加させる）
+		worldtransfrom_.translation_.y += 0.03f;
+
+		// Z位置が一定以上になったらApproachに戻す
+		if (worldtransfrom_.translation_.z >= 5.0f) {
+			phase_ = Phase::Approach;
+		}
 		break;
 
+	default:
+		break;
 	}
 
 	worldtransfrom_.UpdateMatarix();
