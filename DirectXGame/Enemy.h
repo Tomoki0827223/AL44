@@ -17,6 +17,7 @@ public:
 
 	void Initialize(KamataEngine::Model* model, KamataEngine::Camera* camera, const KamataEngine::Vector3& pos);
 	void Update();
+	void OnCollision();
 	void Draw();
 	~Enemy();
 	void Fire();
@@ -24,6 +25,9 @@ public:
 	KamataEngine::Vector3 GetWorldPosition();
 
 	void SetPlayer(Player* player) { player_ = player; }
+
+	// 弾リストを取得
+	const std::list<EnemyBullet*>& GetBullets() const { return bullets_; }
 
 	// 発射間隔
 	static const int kFireInterval = 60;

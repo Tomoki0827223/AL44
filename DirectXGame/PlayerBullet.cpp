@@ -16,6 +16,19 @@ void PlayerBullet::Initialize(KamataEngine::Model* model, const KamataEngine::Ve
 
 }
 
+// ワールド座標を取得
+KamataEngine::Vector3 PlayerBullet::GetWorldPosition() {
+
+	// ワールド座標を入れる変数
+	KamataEngine::Vector3 worldPos;
+	// ワールド行列の平行移動成分を取得（ワールド座標）
+	worldPos.x = worldtransfrom_.matWorld_.m[3][0];
+	worldPos.y = worldtransfrom_.matWorld_.m[3][1];
+	worldPos.z = worldtransfrom_.matWorld_.m[3][2];
+
+	return worldPos;
+}
+
 void PlayerBullet::Update() {
 
 	if (--deathTimer_ <= 0) {
@@ -29,6 +42,8 @@ void PlayerBullet::Update() {
 	worldtransfrom_.UpdateMatarix();
 
 }
+
+void PlayerBullet::OnCollision() { isDead_ = true; }
 
 void PlayerBullet::Draw(const KamataEngine::Camera& camera) {
 

@@ -7,7 +7,11 @@ public:
 
 	void Initialize(KamataEngine::Model* model, const KamataEngine::Vector3& position, const KamataEngine::Vector3& velocity);
 
+	KamataEngine::Vector3 GetWorldPosition();
+
 	void Update();
+
+	void OnCollision();
 
 	void Draw(const KamataEngine::Camera& camera);
 

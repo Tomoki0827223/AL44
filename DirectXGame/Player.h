@@ -4,6 +4,7 @@
 #include <3d/Model.h>
 #include <3d/Camera.h>
 #include <KamataEngine.h>
+#include "AABB.h"
 
 namespace KamataEngine { class Input; };
 
@@ -18,10 +19,19 @@ public:
 	// 衝突を検出したら呼び出されるコールバック関数
 	void OnCollision();
 
-	KamataEngine::Vector3 GetWorldPosition(); 
+	KamataEngine::Vector3 GetWorldPosition();
+
+	AABB GetAABB();
+
+	const std::list<PlayerBullet*>& GetBullets() const { return bullets_; }
+
+	static inline const float kWidth = 1.0f;
+	static inline const float kHeight = 1.0f;
 
 private:
 	
+	bool isDead_ = false;
+
 	KamataEngine::WorldTransform worldtransfrom_;
 
 	KamataEngine::Model* model_ = nullptr;

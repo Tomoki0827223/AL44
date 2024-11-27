@@ -8,11 +8,15 @@ public:
 
 	void Update();
 
+	void OnCollision();
+
 	void Draw(const KamataEngine::Camera& camera);
 
 	~EnemyBullet();
 
 	bool IsDead() const { return isDead_; }
+
+	KamataEngine::Vector3 GetWorldPosition();
 
 private:
 

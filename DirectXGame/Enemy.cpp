@@ -1,6 +1,5 @@
 #include "Enemy.h"
 #include "Player.h"
-#include <cassert>
 
 Enemy::~Enemy() {
 
@@ -14,7 +13,7 @@ void Enemy::Initialize(KamataEngine::Model* model, KamataEngine::Camera* camera,
 	assert(model);
 	model_ = model;
 	camera_ = camera;
-	modelbullet_ = KamataEngine::Model::CreateFromOBJ("cube", true);
+	modelbullet_ = KamataEngine::Model::CreateFromOBJ("Tama", true);
 	worldtransfrom_.translation_ = pos;
 	worldtransfrom_.Initialize();
 }
@@ -31,13 +30,15 @@ KamataEngine::Vector3 Enemy::GetWorldPosition() {
 	return worldPos;
 }
 
+void Enemy::OnCollision() {}
+
 void Enemy::Fire() {
 
 	assert(player_);
 
 	spawnTimer--;
 
-	if (spawnTimer < 0.0f) {
+	if (spawnTimer < -0.0f) {
 
 		KamataEngine::Vector3 moveBullet = worldtransfrom_.translation_;
 
@@ -54,7 +55,7 @@ void Enemy::Fire() {
 		velocity.y += kBulletSpeed * homingBullet.y;
 		velocity.z += kBulletSpeed * homingBullet.z;
 
-	    // 弾を生成し、初期化
+		// 弾を生成し、初期化
 		EnemyBullet* newBullet = new EnemyBullet();
 		newBullet->Initialize(modelbullet_, moveBullet, velocity);
 
@@ -74,39 +75,74 @@ void Enemy::Update() {
 		bullet->Update();
 	}
 
-	//// キャラクターの移動ベクトル
-	//KamataEngine::Vector3 move = {0, 0, 0};
-	//// 接近
-	//KamataEngine::Vector3 accessSpeed = {0.1f,0.1f,0.1f};
-	//// 離脱
-	//KamataEngine::Vector3 eliminationSpeed = {0.5f, 0.3f, 0.0f};
+	// デスフラグの立った弾を削除
+	bullets_.remove_if([](EnemyBullet* bullet) {
+		if (bullet->IsDead()) {
+			delete bullet;
+			return true;
+		}
+		return false;
+	});
 
-	// フェーズごとの動作
+	// キャラクターの移動ベクトル
+	KamataEngine::Vector3 move = {0, 0, 0};
+	// 接近
+	KamataEngine::Vector3 accessSpeed = {0.1f, 0.1f, 0.1f};
+	// 離脱
+	KamataEngine::Vector3 eliminationSpeed = {0.3f, 0.3f, 0.3f};
+
+	/*/
 	switch (phase_) {
 	case Phase::Approach:
-		// Z方向へ近づく
-		worldtransfrom_.translation_.z -= 0.3f;
-
-		// Z位置が閾値に達したらフェーズをLeaveに変更
-
-		if (worldtransfrom_.translation_.z <= -2.0f) {
-			phase_ = Phase::Leave;
-		}
-		break;
-
-	case Phase::Leave:
-		// 離れる動作（例えばZを増加させる）
-		worldtransfrom_.translation_.y += 0.03f;
-
-		// Z位置が一定以上になったらApproachに戻す
-		if (worldtransfrom_.translation_.z >= 5.0f) {
-			phase_ = Phase::Approach;
-		}
-		break;
-
 	default:
-		break;
+	    // 移動(ベクトルを加算)
+	    worldtransfrom_.translation_.z -= accessSpeed.z;
+	    // 規定の位置に到達したら離脱
+	    if (worldtransfrom_.translation_.z < 0.0f) {
+	        phase_ = Phase::Leave;
+	    }
+	    break;
+	case Phase::Leave:
+	    // 移動(ベクトルを加算)
+	    worldtransfrom_.translation_.y += eliminationSpeed.y;
+	    break;
+
 	}
+	/*/
+
+	//// キャラクターの移動ベクトル
+	// KamataEngine::Vector3 move = {0, 0, 0};
+	//// 接近
+	// KamataEngine::Vector3 accessSpeed = {0.1f,0.1f,0.1f};
+	//// 離脱
+	// KamataEngine::Vector3 eliminationSpeed = {0.5f, 0.3f, 0.0f};
+
+	//// フェーズごとの動作
+	// switch (phase_) {
+	// case Phase::Approach:
+	//	// Z方向へ近づく
+	//	worldtransfrom_.translation_.z -= 0.3f;
+
+	//	// Z位置が閾値に達したらフェーズをLeaveに変更
+
+	//	if (worldtransfrom_.translation_.z <= -2.0f) {
+	//		phase_ = Phase::Leave;
+	//	}
+	//	break;
+
+	// case Phase::Leave:
+	//	// 離れる動作（例えばZを増加させる）
+	//	worldtransfrom_.translation_.y += 0.03f;
+
+	//	// Z位置が一定以上になったらApproachに戻す
+	//	if (worldtransfrom_.translation_.z >= 5.0f) {
+	//		phase_ = Phase::Approach;
+	//	}
+	//	break;
+
+	// default:
+	//	break;
+	// }
 
 	worldtransfrom_.UpdateMatarix();
 }
@@ -118,5 +154,4 @@ void Enemy::Draw() {
 	for (EnemyBullet* bullet : bullets_) {
 		bullet->Draw(*camera_);
 	}
-
 }

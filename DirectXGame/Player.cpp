@@ -16,7 +16,7 @@ void Player::Initialize(KamataEngine::Model* model, KamataEngine::Camera* camera
 	assert(model);
 	model_ = model;
 	camera_ = camera;
-	modelbullet_ = KamataEngine::Model::CreateFromOBJ("cube", true);
+	modelbullet_ = KamataEngine::Model::CreateFromOBJ("TamaPlayer", true);
 	worldtransfrom_.translation_ = pos;
 	input_ = KamataEngine::Input::GetInstance();
 	worldtransfrom_.Initialize();
@@ -47,7 +47,7 @@ void Player::Attack() {
 	}
 }
 
-void Player::OnCollision() {}
+void Player::OnCollision() { isDead_ = true; }
 
 // ワールド座標を取得
 KamataEngine::Vector3 Player::GetWorldPosition() { 
@@ -60,6 +60,17 @@ KamataEngine::Vector3 Player::GetWorldPosition() {
 	worldPos.z = worldtransfrom_.matWorld_.m[3][2];
 
 	return worldPos;
+}
+
+AABB Player::GetAABB() {
+	KamataEngine::Vector3 worldPos = GetWorldPosition();
+
+	AABB aabb;
+
+	aabb.min = {worldPos.x - kWidth / 2.0f, worldPos.y - kHeight / 2.0f, worldPos.z - kWidth / 2.0f};
+	aabb.max = {worldPos.x + kWidth / 2.0f, worldPos.y + kHeight / 2.0f, worldPos.z + kWidth / 2.0f};
+
+	return aabb;
 }
 
 void Player::Update() {

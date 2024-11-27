@@ -13,6 +13,8 @@ public:
 	void Update();
 	void Draw();
 
+	void CheckAllCollisions();
+
 private:
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
