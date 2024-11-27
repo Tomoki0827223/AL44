@@ -10,6 +10,7 @@ GameScene::~GameScene() {
 	delete player_;
 	delete enemy_;
 	delete debugCamera_;
+	delete skydome_;
 }
 
 void GameScene::Initialize() {
@@ -20,9 +21,12 @@ void GameScene::Initialize() {
 
 	player_ = new Player();
 	enemy_ = new Enemy();
+	skydome_ = new Skydome();
 	// 3Dモデルの生成
 	modelPlayer_ = KamataEngine::Model::CreateFromOBJ("cube", true);
 	modelEnemy_ = KamataEngine::Model::CreateFromOBJ("cube", true);
+
+	modelSkydome_ = KamataEngine::Model::CreateFromOBJ("skydome", true);
 
 	// ビュープロジェクションの初期化
 	camera_.Initialize();
@@ -30,6 +34,7 @@ void GameScene::Initialize() {
 	// playerPos.z = 0;
 	player_->Initialize(modelPlayer_, &camera_, playerPos);
 	enemy_->Initialize(modelEnemy_, &camera_, enemyPos);
+	skydome_->Initialize(modelSkydome_, &camera_);
 
 	debugCamera_ = new DebugCamera(1280, 720);
 
@@ -83,6 +88,7 @@ void GameScene::Draw() {
 
 	player_->Draw();
 	enemy_->Draw();
+	skydome_->Draw();
 
 	/// </summary>
 

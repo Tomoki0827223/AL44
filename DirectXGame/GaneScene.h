@@ -2,6 +2,7 @@
 #include "Enemy.h"
 #include "KamataEngine.h"
 #include "Player.h"
+#include "Skydome.h"
 using namespace KamataEngine;
 
 class GameScene {
@@ -34,4 +35,7 @@ private:
 	bool isDebugCameraActive_ = false;
 	// デバックカメラ
 	DebugCamera* debugCamera_ = nullptr;
+
+	Skydome* skydome_ = nullptr;
+	Model* modelSkydome_ = nullptr;
 };
