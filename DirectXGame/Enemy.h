@@ -30,7 +30,7 @@ public:
 	const std::list<EnemyBullet*>& GetBullets() const { return bullets_; }
 
 	// 発射間隔
-	static const int kFireInterval = 60;
+	static const int kFireInterval = 25;
 
 private:
 
