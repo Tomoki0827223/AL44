@@ -114,6 +114,7 @@
     <ClCompile Include="affine.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerBullet.cpp" />
+    <ClCompile Include="RailCamera.cpp" />
     <ClCompile Include="Skydome.cpp" />
     <ClCompile Include="worldTransformEx.cpp" />
   </ItemGroup>
@@ -200,6 +201,7 @@
     <ClInclude Include="affine.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerBullet.h" />
+    <ClInclude Include="RailCamera.h" />
     <ClInclude Include="Skydome.h" />
     <ClInclude Include="worldTransformEx.h" />
   </ItemGroup>
