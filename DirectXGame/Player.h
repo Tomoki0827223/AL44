@@ -28,6 +28,13 @@ public:
 	static inline const float kWidth = 1.0f;
 	static inline const float kHeight = 1.0f;
 
+
+	/// <summary>
+	/// 親となるワールドトランスフォームをセット
+	/// </summary>
+	///<param name="parent">親となるワールドトランスフォーム</param>
+	void SetParent(const KamataEngine::WorldTransform* parent);
+
 private:
 	
 	bool isDead_ = false;

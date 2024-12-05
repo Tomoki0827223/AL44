@@ -3,6 +3,7 @@
 #include "KamataEngine.h"
 #include "Player.h"
 #include "Skydome.h"
+#include "RailCamera.h"
 using namespace KamataEngine;
 
 class GameScene {
@@ -23,11 +24,14 @@ private:
 
 	Player* player_ = nullptr;
 	Enemy* enemy_ = nullptr;
-	Vector3 playerPos = {};
 	Vector3 enemyPos = {0, 3, 100};
 
 	Model* modelPlayer_ = nullptr;
 	Model* modelEnemy_ = nullptr;
+
+	RailCamera* railCamera_ = nullptr;
+	Vector3 railcameraPos = {0, 0, 0};
+	Vector3 railcameraRad = {0, 0, 0};
 
 	// std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
 	Camera camera_;

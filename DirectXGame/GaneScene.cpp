@@ -11,6 +11,7 @@ GameScene::~GameScene() {
 	delete enemy_;
 	delete debugCamera_;
 	delete skydome_;
+	delete railCamera_;
 }
 
 void GameScene::Initialize() {
@@ -23,7 +24,7 @@ void GameScene::Initialize() {
 	enemy_ = new Enemy();
 	skydome_ = new Skydome();
 	// 3Dモデルの生成
-	modelPlayer_ = KamataEngine::Model::CreateFromOBJ("cube", true);
+	modelPlayer_ = KamataEngine::Model::CreateFromOBJ("player", true);
 	modelEnemy_ = KamataEngine::Model::CreateFromOBJ("cube", true);
 
 	modelSkydome_ = KamataEngine::Model::CreateFromOBJ("skydome", true);
@@ -31,7 +32,7 @@ void GameScene::Initialize() {
 	// ビュープロジェクションの初期化
 	camera_.Initialize();
 
-	// playerPos.z = 0;
+	Vector3 playerPos = {0.0f, 3.0f, 15.0f};
 	player_->Initialize(modelPlayer_, &camera_, playerPos);
 	enemy_->Initialize(modelEnemy_, &camera_, enemyPos);
 	skydome_->Initialize(modelSkydome_, &camera_);
@@ -43,33 +44,56 @@ void GameScene::Initialize() {
 	// 軸方向表示が参照するビュープロジェクションを指定する（アドレス渡し）
 	KamataEngine::AxisIndicator::GetInstance()->SetTargetCamera(&camera_);
 
+	// Camera
+	railCamera_ = new RailCamera();
+	railCamera_->Initialize(railcameraPos, railcameraRad);
+	player_->SetParent(&railCamera_->GetWorldTransform());
+
 	// 敵キャラに自キャラのアドレスを渡す
 	enemy_->SetPlayer(player_);
 }
 
 void GameScene::Update() {
-	player_->Update();
+
 	enemy_->Update();
-	debugCamera_->Update();
 	CheckAllCollisions();
 
-#ifdef _DEBUG
-
-	if (input_->TriggerKey(DIK_V)) {
-		isDebugCameraActive_ = !isDebugCameraActive_;
-	}
-#endif
-
-	if (isDebugCameraActive_) {
-		debugCamera_->Update();
-		camera_.matView = debugCamera_->GetCamera().matView;
-		camera_.matProjection = debugCamera_->GetCamera().matProjection;
-		camera_.TransferMatrix();
-
-	} else {
-		camera_.UpdateMatrix();
-	}
+	railCamera_->Update();
+	player_->Update();
+	camera_.matView = railCamera_->GetViewProjection().matView;
+	camera_.matProjection = railCamera_->GetViewProjection().matProjection;
+	camera_.TransferMatrix();
 }
+
+//void GameScene::Update() {
+//
+//	enemy_->Update();
+//	debugCamera_->Update();
+//	CheckAllCollisions();
+//
+//	railCamera_->Update();
+//	player_->Update();
+//	camera_.matView = railCamera_->GetViewProjection().matView;
+//	camera_.matProjection = railCamera_->GetViewProjection().matProjection;
+//	camera_.TransferMatrix();
+//
+//#ifdef _DEBUG
+//
+//	if (input_->TriggerKey(DIK_V)) {
+//		isDebugCameraActive_ = !isDebugCameraActive_;
+//	}
+//#endif
+//
+//	if (isDebugCameraActive_) {
+//		debugCamera_->Update();
+//		camera_.matView = debugCamera_->GetCamera().matView;
+//		camera_.matProjection = debugCamera_->GetCamera().matProjection;
+//		camera_.TransferMatrix();
+//
+//	} else {
+//		camera_.UpdateMatrix();
+//	}
+//}
 
 void GameScene::Draw() {
 

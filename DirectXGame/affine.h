@@ -15,6 +15,8 @@ Vector3 Transform(const Vector3& vec, const Matrix4x4& mat);
 
 Vector3 Subtract(const Vector3& v1, const Vector3& v2);
 
+Matrix4x4 Inverse(const Matrix4x4& m);
+
 Vector3 Normalize(const Vector3& v);
 
 Matrix4x4 MakeScaleMatrix(const Vector3& scale);

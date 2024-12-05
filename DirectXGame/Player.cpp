@@ -73,6 +73,8 @@ AABB Player::GetAABB() {
 	return aabb;
 }
 
+void Player::SetParent(const KamataEngine::WorldTransform* parent) { worldtransfrom_.parent_ = parent; }
+
 void Player::Update() {
 
 	// キャラクターの攻撃処理
