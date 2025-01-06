@@ -61,34 +61,36 @@ void Enemy::Fire() {
 
 void Enemy::Update() {
 
-	Fire();
+	// プレイヤーの現在位置を取得
+	KamataEngine::Vector3 playerPos = player_->GetWorldPosition();
+	// 敵の現在位置を取得
+	KamataEngine::Vector3 enemyPos = GetWorldPosition();
 
-	// キャラクターの移動ベクトル
-	KamataEngine::Vector3 move = {0, 0, 0};
-	// 接近
-	KamataEngine::Vector3 accessSpeed = {-0.1f, -0.1f, -0.1f};
-	// 離脱
-	KamataEngine::Vector3 eliminationSpeed = {-0.3f, -0.3f, -0.3f};
+	// プレイヤーに向かう方向ベクトルを計算
+	KamataEngine::Vector3 direction = playerPos - enemyPos;
+	direction = Normalize(direction); // 正規化
 
+	// 移動速度
+	const float kMoveSpeed = 0.05f;
 
-	//switch (phase_) {
-	//case Phase::Approach:
-	//default:
-	//    // 移動(ベクトルを加算)
-	//    worldtransfrom_.translation_.z -= accessSpeed.z;
-	//    // 規定の位置に到達したら離脱
-	//    if (worldtransfrom_.translation_.z < 0.0f) {
-	//        phase_ = Phase::Leave;
-	//    }
-	//    break;
-	//case Phase::Leave:
-	//    // 移動(ベクトルを加算)
-	//    worldtransfrom_.translation_.y += eliminationSpeed.y;
-	//    break;
+	// 移動量を計算
+	KamataEngine::Vector3 move = direction * kMoveSpeed;
 
-	//}
+	// 敵の位置を更新
 
+	worldtransfrom_.translation_ += move;
+
+	/*worldtransfrom_.translation_.x -= move.x;
+	worldtransfrom_.translation_.y -= move.y;
+	worldtransfrom_.translation_.z -= move.z;*/
+
+	// ワールド行列を更新
 	worldtransfrom_.UpdateMatarix();
+
+	// 弾を発射
+	Fire();
 }
+
+
 
 void Enemy::Draw(const KamataEngine::Camera& camera) { model_->Draw(worldtransfrom_, camera); }
