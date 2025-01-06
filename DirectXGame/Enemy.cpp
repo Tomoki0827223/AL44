@@ -36,7 +36,7 @@ void Enemy::Fire() {
 		KamataEngine::Vector3 moveBullet = worldtransfrom_.translation_;
 
 		// 弾の速度
-		const float kBulletSpeed = -3.0f;
+		const float kBulletSpeed = -5.0f;
 
 		KamataEngine::Vector3 velocity(0, 0, 0);
 
@@ -60,7 +60,6 @@ void Enemy::Fire() {
 }
 
 void Enemy::Update() {
-
 	// プレイヤーの現在位置を取得
 	KamataEngine::Vector3 playerPos = player_->GetWorldPosition();
 	// 敵の現在位置を取得
@@ -77,18 +76,18 @@ void Enemy::Update() {
 	KamataEngine::Vector3 move = direction * kMoveSpeed;
 
 	// 敵の位置を更新
-
 	worldtransfrom_.translation_ += move;
-
-	/*worldtransfrom_.translation_.x -= move.x;
-	worldtransfrom_.translation_.y -= move.y;
-	worldtransfrom_.translation_.z -= move.z;*/
 
 	// ワールド行列を更新
 	worldtransfrom_.UpdateMatarix();
 
 	// 弾を発射
 	Fire();
+
+	// (0, 0, 0) に近づいたら消滅
+	if (enemyPos.lengthSquared() <= kDisappearDistance * kDisappearDistance) {
+		isDead_ = true;
+	}
 }
 
 

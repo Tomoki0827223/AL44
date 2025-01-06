@@ -14,7 +14,7 @@ void RailCamera::Update() {
 	// camera_.rotation_.y += 0.11f;
 	// camera_.translation_.x+= 0.01f;
 
-	worldtransfrom_.translation_.z -= 0.11f;
+	worldtransfrom_.translation_.z += 0.11f;
 	// worldtransfrom_.rotation_.y -= 0.001f;
 
 	worldtransfrom_.UpdateMatarix();

@@ -64,6 +64,17 @@ void GameScene::Update() {
 		bullet->Update();
 	}
 
+	// 敵の消滅処理
+	enemies_.remove_if([](Enemy* enemy) {
+		if (enemy->IsDead()) {
+			//std::cout << "Deleting enemy at: " << enemy << std::endl;
+			delete enemy;
+			return true;
+		}
+		return false;
+	});
+
+
 	enemyBullets_.remove_if([](EnemyBullet* bullet) {
 		if (bullet->IsDead()) {
 			delete bullet;

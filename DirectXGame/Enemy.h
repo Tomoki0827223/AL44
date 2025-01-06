@@ -30,6 +30,8 @@ public:
 	void SetPlayer(Player* player) { player_ = player; }
 	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
 
+	bool IsDead() const { return isDead_; }
+
 	// 発射間隔
 	static const int kFireInterval = 15;
 
@@ -50,4 +52,6 @@ private:
 	Phase phase_ = Phase::Approach;
 
 	Phase Bulletphase_ = Phase::Approach;
+
+	const float kDisappearDistance = 1.0f; // 消滅する距離の閾値
 };
