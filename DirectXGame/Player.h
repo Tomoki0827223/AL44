@@ -37,6 +37,8 @@ public:
 
 	void SetParent(const WorldTransform* parent);
 
+	KamataEngine::Vector3 GetPlayerPosition() const { return worldtransfrom_.translation_; }
+
 private:
 	KamataEngine::WorldTransform worldtransfrom_;
 

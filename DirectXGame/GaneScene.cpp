@@ -169,7 +169,7 @@ void GameScene::UpdateEnemyPopCommands() {
 	// 1行分の文字列を入れる変数
 	std::string line;
 
-	// コマンド実行ループ　
+	// コマンド実行ループ
 	while (getline(enemyPopCommands, line)) {
 
 		// 1行分の文字列をストリームに変換して解析しやすくする
@@ -186,7 +186,6 @@ void GameScene::UpdateEnemyPopCommands() {
 		}
 
 		if (word.find("POP") == 0) {
-
 			// x座標
 			getline(line_stream, word, ',');
 			float x = (float)std::atof(word.c_str());
@@ -202,7 +201,6 @@ void GameScene::UpdateEnemyPopCommands() {
 			// 敵を発生させる
 			EnemySpawn(Vector3(x, y, z));
 
-			// WAITコマンド
 		} else if (word.find("WAIT") == 0) {
 			getline(line_stream, word, ',');
 
@@ -210,12 +208,25 @@ void GameScene::UpdateEnemyPopCommands() {
 			int32_t waitTime = atoi(word.c_str());
 
 			// 待機開始
-
 			timerflag = true;
 			timer = waitTime;
 
 			// コマンドループを抜ける
 			break;
+
+		} else if (word.find("DETH") == 0) {
+			// プレイヤーの位置（仮定：playerPosition を取得できる）
+			Vector3 playerPosition = GetPlayerPosition();
+
+			// 敵のリストをチェックして消滅
+			for (auto it = enemies.begin(); it != enemies.end();) {
+				if (it->position.z > playerPosition.z) {
+					// 敵がプレイヤーより手前なら消滅
+					it = enemies.erase(it);
+				} else {
+					++it;
+				}
+			}
 		}
 	}
 }
