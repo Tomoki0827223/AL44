@@ -107,15 +107,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AABB.cpp" />
+    <ClCompile Include="ClearScene.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyBullet.cpp" />
+    <ClCompile Include="FailureScene.cpp" />
     <ClCompile Include="GaneScene.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="affine.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerBullet.cpp" />
     <ClCompile Include="RailCamera.cpp" />
+    <ClCompile Include="SelectStage.cpp" />
+    <ClCompile Include="Setumei.cpp" />
     <ClCompile Include="Skydome.cpp" />
+    <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="worldTransformEx.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -195,14 +200,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABB.h" />
+    <ClInclude Include="ClearScene.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyBullet.h" />
+    <ClInclude Include="FailureScene.h" />
     <ClInclude Include="GaneScene.h" />
     <ClInclude Include="affine.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerBullet.h" />
     <ClInclude Include="RailCamera.h" />
+    <ClInclude Include="SelectStage.h" />
+    <ClInclude Include="Setumei.h" />
     <ClInclude Include="Skydome.h" />
+    <ClInclude Include="TitleScene.h" />
     <ClInclude Include="worldTransformEx.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
