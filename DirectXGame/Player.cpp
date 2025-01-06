@@ -29,7 +29,7 @@ void Player::OnCollision() { isDead_ = true; }
 
 void Player::Attack() {
 
-	if (input_->TriggerKey(DIK_SPACE)) {
+	if (input_->PushKey(DIK_SPACE)) {
 
 		assert(enemy_);
 

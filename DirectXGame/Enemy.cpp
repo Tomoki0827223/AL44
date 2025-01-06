@@ -66,9 +66,9 @@ void Enemy::Update() {
 	// キャラクターの移動ベクトル
 	KamataEngine::Vector3 move = {0, 0, 0};
 	// 接近
-	KamataEngine::Vector3 accessSpeed = {0.1f, 0.1f, 0.1f};
+	KamataEngine::Vector3 accessSpeed = {-0.1f, -0.1f, -0.1f};
 	// 離脱
-	KamataEngine::Vector3 eliminationSpeed = {0.3f, 0.3f, 0.3f};
+	KamataEngine::Vector3 eliminationSpeed = {-0.3f, -0.3f, -0.3f};
 
 
 	//switch (phase_) {
