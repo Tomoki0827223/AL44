@@ -22,36 +22,29 @@ public:
 	void Draw(const KamataEngine::Camera& camera);
 	~Enemy();
 	void Fire();
-
 	void OnCollision();
-
 	KamataEngine::Vector3 GetWorldPosition();
+	void SetPlayer(Player* player);
+	void SetGameScene(GameScene* gameScene);
+	bool IsDead() const;
 
-	void SetPlayer(Player* player) { player_ = player; }
-	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
-
-	bool IsDead() const { return isDead_; }
-
-	// 発射間隔
-	static const int kFireInterval = 15;
-
-	bool isDead_ = false;
+	// 消滅タイマーを追加
+	void SetDisappearTimer(int32_t time);
+	void UpdateDisappearTimer();
 
 private:
+	static const int kFireInterval = 15;
+	bool isDead_ = false;
 	KamataEngine::WorldTransform worldtransfrom_;
 	KamataEngine::Model* model_ = nullptr;
-
 	KamataEngine::Model* modelbullet_ = nullptr;
-
-	// 発射タイマー
 	int32_t spawnTimer = 0;
-
 	Player* player_ = nullptr;
 	GameScene* gameScene_ = nullptr;
-
 	Phase phase_ = Phase::Approach;
-
 	Phase Bulletphase_ = Phase::Approach;
+	const float kDisappearDistance = 1.0f;
 
-	const float kDisappearDistance = 1.0f; // 消滅する距離の閾値
+	// 消滅タイマー
+	int32_t disappearTimer_ = -1;
 };

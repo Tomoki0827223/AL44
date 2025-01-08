@@ -233,7 +233,6 @@ void GameScene::UpdateEnemyPopCommands() {
 }
 
 void GameScene::CheckAllCollisions() {
-
 	KamataEngine::Vector3 posA[3]{}, posB[3]{};
 	float radiusA[3] = {0.8f, 2.0f, 0.8f}; // プレイヤーの半径（固定値）
 	float radiusB[3] = {0.8f, 2.0f, 0.8f}; // 敵弾の半径（固定値）
@@ -241,71 +240,45 @@ void GameScene::CheckAllCollisions() {
 	// 自弾
 	const std::list<PlayerBullet*>& playerBullets = player_->GetBullets();
 
-#pragma region 自キャラと敵弾の当たり判定
-
-	// 自キャラの座標
+	// 自キャラと敵弾の当たり判定
 	posA[0] = player_->GetWorldPosition();
-
-	// 自キャラと敵弾全ての当たり判定
 	for (EnemyBullet* bullet : enemyBullets_) {
-		// 敵弾の座標
 		posB[0] = bullet->GetWorldPosition();
-
-		// 2つの球の中心間の距離の二乗を計算
 		float distanceSquared = (posA[0].x - posB[0].x) * (posA[0].x - posB[0].x) + (posA[0].y - posB[0].y) * (posA[0].y - posB[0].y) + (posA[0].z - posB[0].z) * (posA[0].z - posB[0].z);
-
-		// 半径の合計の二乗
 		float combinedRadiusSquared = (radiusA[0] + radiusB[0]) * (radiusA[0] + radiusB[0]);
-
 		if (distanceSquared <= combinedRadiusSquared) {
-			// 自キャラの衝突時コールバックを呼び出す
 			player_->OnCollision();
-			// 敵弾の衝突時コールバックを呼び出す
 			bullet->OnCollision();
 		}
 	}
 
-#pragma endregion
-
-#pragma region 自弾と敵キャラの当たり判定
-
+	// 自弾と敵キャラの当たり判定
 	for (Enemy* enemy : enemies_) {
-
-		// 敵
 		posA[1] = enemy->GetWorldPosition();
-
 		for (PlayerBullet* bullet : playerBullets) {
-
 			posB[1] = bullet->GetWorldPosition();
 			float distanceSquared = (posA[1].x - posB[1].x) * (posA[1].x - posB[1].x) + (posA[1].y - posB[1].y) * (posA[1].y - posB[1].y) + (posA[1].z - posB[1].z) * (posA[1].z - posB[1].z);
 			float combinedRadiusSquared = (radiusA[2] + radiusB[2]) * (radiusA[2] + radiusB[2]);
-
 			if (distanceSquared <= combinedRadiusSquared) {
 				enemy->OnCollision();
 				bullet->OnCollision();
+				// 敵に消滅タイマーを設定
+				enemy->SetDisappearTimer(60); // 60フレーム後に消滅
 			}
 		}
 	}
 
-#pragma endregion
-
-#pragma region 自弾と敵弾の当たり判定
-
+	// 自弾と敵弾の当たり判定
 	for (EnemyBullet* bullet : enemyBullets_) {
 		for (PlayerBullet* bullet2 : playerBullets) {
-
 			posA[2] = bullet->GetWorldPosition();
 			posB[2] = bullet2->GetWorldPosition();
-
 			float distanceSquared = (posA[2].x - posB[2].x) * (posA[2].x - posB[2].x) + (posA[2].y - posB[2].y) * (posA[2].y - posB[2].y) + (posA[2].z - posB[2].z) * (posA[2].z - posB[2].z);
 			float combinedRadiusSquared = (radiusA[1] + radiusB[1]) * (radiusA[1] + radiusB[1]);
-
 			if (distanceSquared <= combinedRadiusSquared) {
 				bullet->OnCollision();
 				bullet2->OnCollision();
 			}
 		}
 	}
-
-#pragma endregion
 }

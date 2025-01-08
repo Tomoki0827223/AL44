@@ -23,6 +23,13 @@ KamataEngine::Vector3 Enemy::GetWorldPosition() {
 	return worldPos;
 }
 
+void Enemy::SetPlayer(Player* player) { player_ = player; }
+
+void Enemy::SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
+
+bool Enemy::IsDead() const { return isDead_; }
+
+
 void Enemy::OnCollision() { isDead_ = true; }
 
 void Enemy::Fire() {
@@ -90,6 +97,15 @@ void Enemy::Update() {
 	}
 }
 
+void Enemy::SetDisappearTimer(int32_t time) { disappearTimer_ = time; }
 
+void Enemy::UpdateDisappearTimer() {
+	if (disappearTimer_ > 0) {
+		disappearTimer_--;
+		if (disappearTimer_ == 0) {
+			isDead_ = true;
+		}
+	}
+}
 
 void Enemy::Draw(const KamataEngine::Camera& camera) { model_->Draw(worldtransfrom_, camera); }
