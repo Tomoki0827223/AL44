@@ -213,21 +213,22 @@ void GameScene::UpdateEnemyPopCommands() {
 
 			// コマンドループを抜ける
 			break;
-
-		} else if (word.find("DETH") == 0) {
-			// プレイヤーの位置（仮定：playerPosition を取得できる）
-			Vector3 playerPosition = GetPlayerPosition();
-
-			// 敵のリストをチェックして消滅
-			for (auto it = enemies.begin(); it != enemies.end();) {
-				if (it->position.z > playerPosition.z) {
-					// 敵がプレイヤーより手前なら消滅
-					it = enemies.erase(it);
-				} else {
-					++it;
-				}
-			}
 		}
+
+		//} else if (word.find("DETH") == 0) {
+		//	// プレイヤーの位置（仮定：playerPosition を取得できる）
+		//	Vector3 playerPosition = GetPlayerPosition();
+
+		//	// 敵のリストをチェックして消滅
+		//	for (auto it = enemies.begin(); it != enemies.end();) {
+		//		if (it->position.z > playerPosition.z) {
+		//			// 敵がプレイヤーより手前なら消滅
+		//			it = enemies.erase(it);
+		//		} else {
+		//			++it;
+		//		}
+		//	}
+		//}
 	}
 }
 
