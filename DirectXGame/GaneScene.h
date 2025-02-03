@@ -1,11 +1,8 @@
 #pragma once
-#include "AABB.h"
-#include "Enemy.h"
+#include "InputHandler.h"
 #include "KamataEngine.h"
 #include "Player.h"
-#include "RailCamera.h"
 #include "Skydome.h"
-#include <sstream>
 using namespace KamataEngine;
 
 class GameScene {
@@ -16,19 +13,6 @@ public:
 	void Initialize();
 	void Update();
 	void Draw();
-	// 衝突判定と応答
-	void CheckAllCollisions();
-
-	// 弾を追加
-	void AddEnemyBullet(EnemyBullet* enemyBullet);
-	const std::list<EnemyBullet*>& GetEnemyBullets() const { return enemyBullets_; }
-
-	void LoadEnemyPopData();
-	void UpdateEnemyPopCommands();
-	void EnemySpawn(const Vector3& position);
-
-	int32_t timer = 0;
-	bool timerflag = true;
 
 private:
 	DirectXCommon* dxCommon_ = nullptr;
@@ -36,30 +20,14 @@ private:
 	Audio* audio_ = nullptr;
 
 	Player* player_ = nullptr;
-	// Enemy* enemy_ = nullptr;
+	KamataEngine::Vector3 playerPos = {0, 0, 25};
+
+	KamataEngine::Model* modelPlayer_ = nullptr;
+	KamataEngine::Camera camera_;
+
+	InputHandler* inputHandler_ = nullptr;
+	ICommand* iCommand_ = nullptr;
+
 	Skydome* skydome_ = nullptr;
 	Model* modelSkydome_ = nullptr;
-	RailCamera* railCamera_ = nullptr;
-
-	Vector3 playerPos = {0, 0, 25};
-	Vector3 RailCamerPos = {0, 0, 0};
-	Vector3 RailCamerRad = {0, 0, 0};
-
-	Model* modelPlayer_ = nullptr;
-	Model* modelEnemy_ = nullptr;
-
-	// カメラ
-	WorldTransform worldTransform_;
-	Camera camera_;
-
-	Vector3 railcameraPos = {0, 0, 0};
-	Vector3 railcameraRad = {0, 0, 0};
-
-	// 敵弾リストを追加
-	std::list<EnemyBullet*> enemyBullets_;
-
-	// 敵発生コマンド
-	std::stringstream enemyPopCommands;
-
-	std::list<Enemy*> enemies_;
 };
