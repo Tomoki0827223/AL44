@@ -1,5 +1,5 @@
 #pragma once
-#include "InputHandler.h"
+#include "InputMove.h"
 #include "KamataEngine.h"
 #include "Player.h"
 #include "Skydome.h"
@@ -20,12 +20,12 @@ private:
 	Audio* audio_ = nullptr;
 
 	Player* player_ = nullptr;
-	KamataEngine::Vector3 playerPos = {0, 0, 25};
+	KamataEngine::Vector3 playerPos = {0, 0, 10};
 
 	KamataEngine::Model* modelPlayer_ = nullptr;
 	KamataEngine::Camera camera_;
 
-	InputHandler* inputHandler_ = nullptr;
+	InputMove* inputHandler_ = nullptr;
 	ICommand* iCommand_ = nullptr;
 
 	Skydome* skydome_ = nullptr;

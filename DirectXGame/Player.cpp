@@ -14,8 +14,8 @@ void Player::Update() { worldtransfrom_.UpdateMatarix(); }
 
 void Player::Draw() { model_->Draw(worldtransfrom_, *camera_); }
 
-void Player::MoveRight() { worldtransfrom_.translation_.x += 0.1f; }
+void Player::MoveRight() { worldtransfrom_.translation_.x += 1.0f; }
 
-void Player::MoveLeft() { worldtransfrom_.translation_.x -= 0.1f; }
+void Player::MoveLeft() { worldtransfrom_.translation_.x -= 1.0f; }
 
 KamataEngine::Vector3 Player::GetWorldPosition() const { return worldtransfrom_.translation_; }

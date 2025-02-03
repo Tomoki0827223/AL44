@@ -8,8 +8,8 @@ GameScene::~GameScene() {
 	delete modelPlayer_;
 	delete player_;
 	delete inputHandler_;
-	delete modelSkydome_;
-	delete skydome_;
+	//delete modelSkydome_;
+	//delete skydome_;
 }
 
 void GameScene::Initialize() {
@@ -18,17 +18,17 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
-	inputHandler_ = new InputHandler();
-	inputHandler_->AssignMoveRightCommand2PressKeyD();
-	inputHandler_->AssignMoveLeftCommand2PressKeyA();
+	inputHandler_ = new InputMove();
+	inputHandler_->AssignMoveRightCommand2();
+	inputHandler_->AssignMoveLeftCommand1();
 
 	player_ = new Player();
-	modelPlayer_ = KamataEngine::Model::CreateFromOBJ("cube", true);
+	modelPlayer_ = KamataEngine::Model::CreateFromOBJ("Tama", true);
 	player_->Initialize(modelPlayer_, &camera_, playerPos);
 
-	skydome_ = new Skydome();
+	/*skydome_ = new Skydome();
 	modelSkydome_ = KamataEngine::Model::CreateFromOBJ("skydome", true);
-	skydome_->Initialize(modelSkydome_, &camera_);
+	skydome_->Initialize(modelSkydome_, &camera_);*/
 
 	camera_.Initialize();
 
@@ -44,7 +44,7 @@ void GameScene::Update() {
 
 	player_->Update();
 	camera_.UpdateMatrix();
-	skydome_->Update();
+	//skydome_->Update();
 }
 
 void GameScene::Draw() {
@@ -59,8 +59,7 @@ void GameScene::Draw() {
 
 	KamataEngine::Model::PostDraw();
 	Sprite::PreDraw(commandList);
-
-	skydome_->Draw();
-
 	Sprite::PostDraw();
+
+	//skydome_->Draw();
 }
